@@ -4,7 +4,7 @@
 
 ## English
 
-**Last updated: October 2026**
+**Last updated: November 2026**
 
 ### 1. Data Controller
 
@@ -51,7 +51,7 @@ To find and fix bugs, the app can send anonymized crash and error diagnostics us
 
 If you opt in:
 - Crash reports are stored and processed on Sentry's **EU-based servers** (`de.sentry.io`). Sentry's operator is a US company; should data be accessed from outside the EU (e.g. for support or security operations), this is covered by the EU-U.S. Data Privacy Framework and the Standard Contractual Clauses in Sentry's Data Processing Agreement (Art. 45 and 46 GDPR).
-- Reports contain only technical diagnostics (app version, device model, OS version, stack traces, and — at 20% sampling — performance traces and CPU profiles). **No birthdays, names, contacts, or other personal data are included** — exception values are redacted and user identifiers are stripped before sending.
+- Reports contain only technical diagnostics (app version, device model, OS version, stack traces, and — at 20% sampling — performance traces). **No birthdays, names, contacts, or other personal data are included** — exception values are redacted and user identifiers are stripped before sending.
 - Native crash reports (Android tombstones) may also be captured when enabled (`enableTombstone`) to aid diagnosis of low-level crashes.
 - IP addresses are **not stored** (`sendDefaultPii` is disabled and server-side IP storage is deactivated).
 
@@ -73,7 +73,7 @@ If you opt in:
   - access to your contacts was asked for and granted (`contacts_permission_granted`) or not granted (`contacts_permission_denied`);
   - a birthday was added by hand (`birthday_added_manually`) — but not its name or date;
   - your birthdays were loaded when the app started, with only a rough count range: 0, 1–10, 11–50 or more than 50 (`birthdays_loaded`);
-  - a backup was created (`backup_created`) or restored (`backup_restored`), or a restore failed, with only the kind of failure: wrong passphrase, damaged file or other (`backup_restore_failed`) — never the backup's contents or passphrase;
+  - a backup was created (`backup_created`) or restored (`backup_restored`), or a restore failed, with only the kind of failure: wrong backup password, damaged file or other (`backup_restore_failed`) — never the backup's contents or backup password;
   - the name search was used (`search_used`), once per search — never what you searched for;
   - a wish message template was added, edited, deleted or reset to the defaults, with only which of the four it was (`wish_template_edited`) — never the message text;
   - the button that inserts the first-name placeholder into a wish message was tapped (`first_name_inserted`).
@@ -86,13 +86,13 @@ If you do not opt in, the analytics SDK is never initialized and no data is coll
 
 #### 3.6 Backups & Data Export (optional)
 
-You can create a local backup of your birthday data (names, dates, per-birthday reminder settings, and custom wish messages) and app settings at any time from **Settings → Backup**. The backup file is encrypted on your device before it is written to disk, using a passphrase you choose (Argon2id key derivation with AES-256-GCM encryption) — we never see this passphrase and cannot decrypt or access the backup file's contents.
+You can create a local backup of your birthday data (names, dates, per-birthday reminder settings, and custom wish messages) and app settings at any time from **Settings → Backup**. The backup file is encrypted on your device before it is written to disk, using a backup password you choose (Argon2id key derivation with AES-256-GCM encryption) — we never see this backup password and cannot decrypt or access the backup file's contents.
 
-If you tick **Remember passphrase on this device** when creating a backup, the passphrase is stored on your device only, encrypted with a key held in your device's secure hardware (Android Keystore / iOS Keychain), so that it can be reused for your next backup. It is never transmitted to us, never included in your device's cloud backup or device-to-device transfer, and it is not stored in the backup file itself. It can only be displayed after you unlock your device (PIN, pattern, password or biometrics), and only for a short time. You can remove it at any time with **Forget** on the backup screen; it is also deleted when you delete all data. This option is off by default.
+If you tick **Remember backup password on this device** when creating a backup, the backup password is stored on your device only, encrypted with a key held in your device's secure hardware (Android Keystore / iOS Keychain), so that it can be reused for your next backup. It is never transmitted to us, never included in your device's cloud backup or device-to-device transfer, and it is not stored in the backup file itself. It can only be displayed after you unlock your device (PIN, pattern, password or biometrics), and only for a short time. You can remove it at any time with **Delete** on the backup screen; it is also deleted when you delete all data. This option is off by default.
 
 The backup file is stored in the app's private storage on your device. If you have Google's "Back up to Google Drive" (Android) or iCloud Backup (iOS) enabled on your device, this **encrypted** backup file may be included in that OS-level device backup, since it is designed to let you move your data to a new device — unlike the app's core database, it is not excluded from your device's automatic backup. This is a backup made by your device to your own Google/Apple account; we have no access to it and are not involved in it.
 
-You can also explicitly export the encrypted backup file yourself (e.g. via **Share**) to a location of your choosing, such as cloud storage or email. That transfer is entirely under your control — we do not receive a copy.
+You can also explicitly export the encrypted backup file yourself (e.g. via **Share backup file**) to a location of your choosing, such as cloud storage or email. That transfer is entirely under your control — we do not receive a copy.
 
 #### 3.7 Sharing a Birthday Wish (optional)
 
@@ -108,7 +108,7 @@ If you tap **Share** or **Copy** on a birthday wish message, the app hands that 
 | Receive Boot Completed | To reschedule reminders after device restart |
 | Battery Optimization (REQUEST_IGNORE_BATTERY_OPTIMIZATIONS) | Optional — to ensure reminders fire reliably when the device is idle |
 | Wake Lock (WAKE_LOCK) | To finish scheduling reminders in the background without the device going to sleep |
-| Biometrics / device unlock (USE_BIOMETRIC, Face ID) | Optional — to confirm it is you (biometrics or your PIN, pattern or password) before the saved backup passphrase is shown (section 3.6). Biometric data is processed only by your device's operating system and never reaches the app or us. |
+| Biometrics / device unlock (USE_BIOMETRIC, Face ID) | Optional — to confirm it is you (biometrics or your PIN, pattern or password) before the saved backup password is shown (section 3.6). Biometric data is processed only by your device's operating system and never reaches the app or us. |
 | Internet (INTERNET) | Only to send crash reports (section 3.4) and usage statistics (section 3.5) if you opted in |
 
 Permissions are only used for the stated purpose and can be revoked at any time in your device settings.
@@ -180,7 +180,7 @@ For any privacy-related questions, please contact us at:
 
 ## Deutsch
 
-**Zuletzt aktualisiert: Oktober 2026**
+**Zuletzt aktualisiert: November 2026**
 
 ### 1. Verantwortlicher
 
@@ -227,7 +227,7 @@ Um Fehler zu finden und zu beheben, kann die App anonymisierte Absturz- und Fehl
 
 Wenn Sie zustimmen:
 - Absturzberichte werden auf **Servern in der EU** (`de.sentry.io`) gespeichert und verarbeitet. Der Betreiber von Sentry ist ein US-Unternehmen; sollte ein Zugriff von außerhalb der EU erfolgen (z. B. für Support oder Sicherheitsbetrieb), ist dieser durch das EU-US Data Privacy Framework sowie die Standardvertragsklauseln im Auftragsverarbeitungsvertrag von Sentry abgesichert (Art. 45 und 46 DSGVO).
-- Berichte enthalten nur technische Diagnosedaten (App-Version, Gerätemodell, Betriebssystemversion, Stack-Traces sowie — bei 20 % Stichprobe — Performance-Traces und CPU-Profile). **Es werden keine Geburtstage, Namen, Kontakte oder sonstigen personenbezogenen Daten übermittelt** — Ausnahmetexte werden geschwärzt und Nutzerkennungen vor dem Senden entfernt.
+- Berichte enthalten nur technische Diagnosedaten (App-Version, Gerätemodell, Betriebssystemversion, Stack-Traces sowie — bei 20 % Stichprobe — Performance-Traces). **Es werden keine Geburtstage, Namen, Kontakte oder sonstigen personenbezogenen Daten übermittelt** — Ausnahmetexte werden geschwärzt und Nutzerkennungen vor dem Senden entfernt.
 - Native Absturzberichte (Android-Tombstones) können bei aktivierter Tombstone-Erfassung zur Diagnose von systemnahen Abstürzen übermittelt werden.
 - IP-Adressen werden **nicht gespeichert** (`sendDefaultPii` ist deaktiviert und die serverseitige IP-Speicherung ist abgeschaltet).
 
@@ -249,7 +249,7 @@ Wenn Sie zustimmen:
   - der Zugriff auf Ihre Kontakte wurde angefragt und erteilt (`contacts_permission_granted`) oder nicht erteilt (`contacts_permission_denied`);
   - ein Geburtstag wurde von Hand hinzugefügt (`birthday_added_manually`) — nicht jedoch sein Name oder Datum;
   - Ihre Geburtstage wurden beim App-Start geladen, nur mit einem groben Anzahlbereich: 0, 1–10, 11–50 oder mehr als 50 (`birthdays_loaded`);
-  - ein Backup wurde erstellt (`backup_created`) oder wiederhergestellt (`backup_restored`), oder eine Wiederherstellung schlug fehl, nur mit der Art des Fehlers: falsches Passwort, beschädigte Datei oder Sonstiges (`backup_restore_failed`) — niemals Inhalt oder Passwort des Backups;
+  - ein Backup wurde erstellt (`backup_created`) oder wiederhergestellt (`backup_restored`), oder eine Wiederherstellung schlug fehl, nur mit der Art des Fehlers: falsches Sicherungskennwort, beschädigte Datei oder Sonstiges (`backup_restore_failed`) — niemals Inhalt oder Sicherungskennwort des Backups;
   - die Namenssuche wurde verwendet (`search_used`), einmal pro Suche — niemals der Suchbegriff;
   - eine Vorlage für Geburtstagswünsche wurde hinzugefügt, bearbeitet, gelöscht oder auf die Standardvorlagen zurückgesetzt, nur mit der Art der Änderung (`wish_template_edited`) — niemals der Nachrichtentext;
   - der Button, der den Vornamen-Platzhalter in einen Geburtstagswunsch einfügt, wurde getippt (`first_name_inserted`).
@@ -262,13 +262,13 @@ Wenn Sie nicht zustimmen, wird das Analyse-SDK niemals initialisiert und es werd
 
 #### 3.6 Backups & Datenexport (optional)
 
-Sie können jederzeit unter **Einstellungen → Datensicherung** eine lokale Sicherung Ihrer Geburtstagsdaten (Namen, Daten, Erinnerungseinstellungen pro Geburtstag und individuelle Wunschnachrichten) und Ihrer App-Einstellungen erstellen. Die Backup-Datei wird auf Ihrem Gerät verschlüsselt, bevor sie gespeichert wird, unter Verwendung eines von Ihnen gewählten Passworts (Schlüsselableitung mit Argon2id und Verschlüsselung mit AES-256-GCM) — wir sehen dieses Passwort niemals und können weder den Inhalt der Backup-Datei entschlüsseln noch darauf zugreifen.
+Sie können jederzeit unter **Einstellungen → Datensicherung** eine lokale Sicherung Ihrer Geburtstagsdaten (Namen, Daten, Erinnerungseinstellungen pro Geburtstag und individuelle Wunschnachrichten) und Ihrer App-Einstellungen erstellen. Die Backup-Datei wird auf Ihrem Gerät verschlüsselt, bevor sie gespeichert wird, unter Verwendung eines von Ihnen gewählten Sicherungskennworts (Schlüsselableitung mit Argon2id und Verschlüsselung mit AES-256-GCM) — wir sehen dieses Sicherungskennwort niemals und können weder den Inhalt der Backup-Datei entschlüsseln noch darauf zugreifen.
 
-Wenn Sie beim Erstellen eines Backups **Passphrase auf diesem Gerät merken** auswählen, wird das Passwort ausschließlich auf Ihrem Gerät gespeichert, verschlüsselt mit einem Schlüssel aus dem geschützten Hardware-Speicher Ihres Geräts (Android Keystore / iOS-Schlüsselbund), damit es für Ihr nächstes Backup wiederverwendet werden kann. Es wird niemals an uns übertragen, nie in die Cloud-Sicherung oder Geräteübertragung Ihres Geräts einbezogen und nicht in der Backup-Datei selbst gespeichert. Angezeigt werden kann es nur, nachdem Sie Ihr Gerät entsperrt haben (PIN, Muster, Passwort oder Biometrie), und nur für kurze Zeit. Sie können es jederzeit über **Vergessen** auf dem Backup-Bildschirm entfernen; außerdem wird es gelöscht, wenn Sie alle Daten löschen. Diese Option ist standardmäßig deaktiviert.
+Wenn Sie beim Erstellen eines Backups **Sicherungskennwort auf diesem Gerät merken** auswählen, wird das Sicherungskennwort ausschließlich auf Ihrem Gerät gespeichert, verschlüsselt mit einem Schlüssel aus dem geschützten Hardware-Speicher Ihres Geräts (Android Keystore / iOS-Schlüsselbund), damit es für Ihr nächstes Backup wiederverwendet werden kann. Es wird niemals an uns übertragen, nie in die Cloud-Sicherung oder Geräteübertragung Ihres Geräts einbezogen und nicht in der Backup-Datei selbst gespeichert. Angezeigt werden kann es nur, nachdem Sie Ihr Gerät entsperrt haben (PIN, Muster, Passwort oder Biometrie), und nur für kurze Zeit. Sie können es jederzeit über **Löschen** auf dem Backup-Bildschirm entfernen; außerdem wird es gelöscht, wenn Sie alle Daten löschen. Diese Option ist standardmäßig deaktiviert.
 
 Die Backup-Datei wird im privaten Speicherbereich der App auf Ihrem Gerät abgelegt. Wenn Sie auf Ihrem Gerät „Sicherung bei Google Drive" (Android) oder das iCloud-Backup (iOS) aktiviert haben, kann diese **verschlüsselte** Backup-Datei in dieses Betriebssystem-Backup einbezogen werden, da sie dazu gedacht ist, Ihre Daten auf ein neues Gerät zu übertragen — anders als die Kerndatenbank der App ist sie nicht vom automatischen Geräte-Backup ausgeschlossen. Dabei handelt es sich um eine Sicherung, die Ihr Gerät für Sie in Ihrem eigenen Google-/Apple-Konto anlegt; wir haben keinen Zugriff darauf und sind daran nicht beteiligt.
 
-Sie können die verschlüsselte Backup-Datei auch selbst explizit exportieren (z. B. über **Teilen**) an einen Ort Ihrer Wahl, etwa einen Cloud-Speicher oder per E-Mail. Diese Übertragung liegt vollständig in Ihrer eigenen Kontrolle — wir erhalten dabei keine Kopie.
+Sie können die verschlüsselte Backup-Datei auch selbst explizit exportieren (z. B. über **Sicherungsdatei teilen**) an einen Ort Ihrer Wahl, etwa einen Cloud-Speicher oder per E-Mail. Diese Übertragung liegt vollständig in Ihrer eigenen Kontrolle — wir erhalten dabei keine Kopie.
 
 #### 3.7 Teilen eines Geburtstagswunsches (optional)
 
@@ -284,7 +284,7 @@ Wenn Sie bei einer Geburtstagswunsch-Nachricht auf **Teilen** oder **Kopieren** 
 | Receive Boot Completed | Zur Wiederherstellung von Erinnerungen nach Geräteneustart |
 | Akku-Optimierung (REQUEST_IGNORE_BATTERY_OPTIMIZATIONS) | Optional – um sicherzustellen, dass Erinnerungen auch im Ruhezustand zuverlässig ausgelöst werden |
 | Wake Lock (WAKE_LOCK) | Zum Abschließen der Erinnerungsplanung im Hintergrund, ohne dass das Gerät in den Ruhezustand wechselt |
-| Biometrie / Gerätesperre (USE_BIOMETRIC, Face ID) | Optional – um vor der Anzeige der gespeicherten Backup-Passphrase zu bestätigen, dass Sie es sind (Biometrie oder PIN, Muster bzw. Passwort; Abschnitt 3.6). Biometrische Daten verarbeitet ausschließlich das Betriebssystem Ihres Geräts; sie gelangen weder an die App noch an uns. |
+| Biometrie / Gerätesperre (USE_BIOMETRIC, Face ID) | Optional – um vor der Anzeige des gespeicherten Sicherungskennworts zu bestätigen, dass Sie es sind (Biometrie oder PIN, Muster bzw. Passwort; Abschnitt 3.6). Biometrische Daten verarbeitet ausschließlich das Betriebssystem Ihres Geräts; sie gelangen weder an die App noch an uns. |
 | Internet (INTERNET) | Nur zum Senden von Absturzberichten (Abschnitt 3.4) und Nutzungsstatistiken (Abschnitt 3.5), wenn Sie zugestimmt haben |
 
 Berechtigungen werden ausschließlich für den angegebenen Zweck verwendet und können jederzeit in den Geräteeinstellungen widerrufen werden.
